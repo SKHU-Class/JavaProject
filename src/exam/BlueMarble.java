@@ -6,6 +6,9 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class BlueMarble extends JFrame {
@@ -127,50 +130,55 @@ public class BlueMarble extends JFrame {
     JButton playerA = new JButton("A");
     JButton playerB = new JButton("B");
     JButton Roll = new JButton("Roll");
-    JPanel purchasePopup = new JPanel();
+    JPanel purchasePopup = new JPanel(null);
+    JButton purchaseBtn = new JButton("구매하기");
     int curposA = 0;
     int curposB = 0;
     int moneyA = 1000000;
     int moneyB = 1000000;
+    JTextArea boughtACountry = new JTextArea();
+    JTextArea boughtBCountry = new JTextArea();
+    JLabel description = new JLabel();
+    JLabel playerLabel = new JLabel();
+    JLabel purchaseName = new JLabel("");
     JLabel moneyALabel = new JLabel("현재 자산: " + moneyA);
     JLabel moneyBLabel = new JLabel("현재 자산: " + moneyB);
     int turn = 0;
-    String[] boughtA = new String[]{"adsf", "asdf", "asdf", "asdf", "asdf", "asdf", "asdf", "asdf", "asdf", "asdf", "asdf"};
-    String[] boughtB = new String[]{"adsf", "asdf", "asdf", "asdf", "asdf", "asdf", "asdf", "asdf", "asdf", "asdf", "asdf"};
-
+    List<String> boughtA = new ArrayList<>();
+    List<String> boughtB = new ArrayList<>();
     CountryState[] countryState = new CountryState[]{
-            new CountryState(0, "start"),
-            new CountryState(1, "notbuy"),
-            new CountryState(2, "game"),
-            new CountryState(3, "notbuy"),
-            new CountryState(4, "notbuy"),
-            new CountryState(5, "notbuy"),
-            new CountryState(6, "notbuy"),
-            new CountryState(7, "notbuy"),
-            new CountryState(8, "island"),
-            new CountryState(9, "notbuy"),
-            new CountryState(10, "notbuy"),
-            new CountryState(11, "notbuy"),
-            new CountryState(12, "card"),
-            new CountryState(13, "notbuy"),
-            new CountryState(14, "notbuy"),
-            new CountryState(15, "notbuy"),
-            new CountryState(16, "olympic"),
-            new CountryState(17, "notbuy"),
-            new CountryState(18, "notbuy"),
-            new CountryState(19, "notbuy"),
-            new CountryState(20, "card"),
-            new CountryState(21, "notbuy"),
-            new CountryState(22, "notbuy"),
-            new CountryState(23, "notbuy"),
-            new CountryState(24, "airplane"),
-            new CountryState(25, "notbuy"),
-            new CountryState(26, "notbuy"),
-            new CountryState(27, "notbuy"),
-            new CountryState(28, "card"),
-            new CountryState(29, "notbuy"),
-            new CountryState(30, "tex"),
-            new CountryState(31, "notbuy"),
+            new CountryState(0, "start", "start", 100000),
+            new CountryState(1, "방콕","notbuy", 100000),
+            new CountryState(2, "보너스게임","game", 100000),
+            new CountryState(3, "베이징","notbuy", 100000),
+            new CountryState(4, "독도","notbuy", 100000),
+            new CountryState(5, "타이페이","notbuy", 100000),
+            new CountryState(6, "두바이","notbuy", 100000),
+            new CountryState(7, "카이로","notbuy", 100000),
+            new CountryState(8, "무인도","island", 100000),
+            new CountryState(9, "발리","notbuy", 100000),
+            new CountryState(10,"도쿄", "notbuy", 100000),
+            new CountryState(11,"시드니", "notbuy", 100000),
+            new CountryState(12,"card", "card", 100000),
+            new CountryState(13,"퀘벡", "notbuy", 100000),
+            new CountryState(14,"하와이", "notbuy", 100000),
+            new CountryState(15,"상파울로", "notbuy", 100000),
+            new CountryState(16,"올림픽", "olympic", 100000),
+            new CountryState(17,"프라하", "notbuy", 100000),
+            new CountryState(18,"푸켓", "notbuy", 100000),
+            new CountryState(19,"베를린", "notbuy", 100000),
+            new CountryState(20,"card", "card", 100000),
+            new CountryState(21,"모스크바", "notbuy", 100000),
+            new CountryState(22,"제네바", "notbuy", 100000),
+            new CountryState(23,"로마", "notbuy", 100000),
+            new CountryState(24,"세계여행", "airplane", 100000),
+            new CountryState(25,"타히티", "notbuy", 100000),
+            new CountryState(26,"런던", "notbuy", 100000),
+            new CountryState(27,"영국", "notbuy", 100000),
+            new CountryState(28,"card", "card", 100000),
+            new CountryState(29,"뉴욕", "notbuy", 100000),
+            new CountryState(30,"국세청", "tex", 100000),
+            new CountryState(31,"서울", "notbuy", 100000),
     };
     public BlueMarble() {
         setTitle("BlueMarble");
@@ -239,10 +247,8 @@ public class BlueMarble extends JFrame {
         moneyALabel.setBounds(10, 30, 150, 30);
         board.add(moneyALabel);
 
-        for (String s: boughtA) {
-            JTextArea boughtCountry = new JTextArea(s);
-            listBoard.add(boughtCountry);
-        }
+        boughtACountry.setLineWrap(true);
+        listBoard.add(boughtACountry);
     }
 
     void createPlayerBStatus(Container panel) {
@@ -266,10 +272,8 @@ public class BlueMarble extends JFrame {
         moneyBLabel.setBounds(10, 30, 150, 30);
         board.add(moneyBLabel);
 
-        for (String s: boughtB) {
-            JTextArea boughtCountry = new JTextArea(s);
-            listBoard.add(boughtCountry);
-        }
+        boughtBCountry.setLineWrap(true);
+        listBoard.add(boughtBCountry);
     }
 
     JLabel createContry(String name, Color color) {
@@ -342,14 +346,61 @@ public class BlueMarble extends JFrame {
         purchasePopup.setBackground(Color.white);
         purchasePopup.setBounds(300, 300, 210, 210);
 
-        JButton purchase = new JButton("구매하기");
-        purchasePopup.add(purchase);
-        purchase.setBounds(100, 150, 100, 40);
+        purchasePopup.add(purchaseBtn);
+        purchaseBtn.setBounds(60, 150, 100, 40);
+        PurchaseListener listener = new PurchaseListener();
+        purchaseBtn.addActionListener(listener);
+
+        description.setHorizontalAlignment(0);
+        purchasePopup.add(description);
+        description.setBounds(0, 90, 210, 40);
+
+        playerLabel.setHorizontalAlignment(0);
+        purchasePopup.add(playerLabel);
+        playerLabel.setBounds(0, 55, 210, 40);
+
+        purchaseName.setBounds(0, 10, 210, 40);
+        purchaseName.setHorizontalAlignment(0);
+        purchasePopup.add(purchaseName);
+        purchaseName.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 15));
     }
 
-    void setPopup(int countryId) {
+    void setMyCountry(int countryId, String player) {
         purchasePopup.setVisible(true);
         Roll.setVisible(false);
+
+        CountryState country = countryState[countryId];
+        country.count += 1;
+        purchaseName.setText(country.name + country.count + "번 방문함");
+        playerLabel.setText(player + "가 " + country.name + "을 방문했습니다.");
+        int upPrice = (int) (country.price + (country.count * country.price * 0.1));
+
+        description.setText("<html>도시 가격이 " + country.price + "에서<br/>" + upPrice + "로 증가하였습니다.</html>");
+        country.price = upPrice;
+        purchaseBtn.setText("확인");
+    }
+    void setPurchasePopup(int countryId, String player) {
+        purchasePopup.setVisible(true);
+        Roll.setVisible(false);
+
+        CountryState country = countryState[countryId];
+        purchaseName.setText(country.name);
+        playerLabel.setText(player + "가 " + country.name + "을 밟았습니다.");
+        description.setText(country.price + "원에 구매할 수 있습니다.");
+        purchaseBtn.setText("구매하기");
+    }
+
+    void setPayPopup(int countryId, String player) {
+        purchasePopup.setVisible(true);
+        Roll.setVisible(false);
+        CountryState country = countryState[countryId];
+        country.count += 1;
+        purchaseName.setText(country.name + country.count + "번 방문함");
+        playerLabel.setText(player + "가 " + country.name + "을 방문했습니다.");
+        int upPrice = (int) (country.price + (country.count * country.price * 0.1));
+        description.setText(upPrice + "원을 지불해야합니다.");
+        country.price = upPrice;
+        purchaseBtn.setText("지불하기");
     }
 
     class RollBtnListener implements ActionListener {
@@ -362,36 +413,128 @@ public class BlueMarble extends JFrame {
             if (turn == 0) {
                 rollLabel.setText("A가 굴린 숫자 : " + rand);
                 changePlayerPos(turn, rand);
-                setPopup(curposA);
                 turn = 1;
+
+                switch (countryState[curposA].state) {
+                    case "notbuy":
+                        setPurchasePopup(curposA, "A");
+                        break;
+                    case "A":
+                        // 내땅이니까 가격 증가
+                        setMyCountry(curposA, "A");
+                        break;
+                    case "B":
+                        // 넘땅이니까 돈내는 팝업
+                        setPayPopup(curposA, "A");
+                        break;
+                    case "card":
+                        // 이벤트 팝업
+                    case "game":
+                        // 이벤트 팝업
+                    case "island":
+                    case "olympic":
+                    case "airplane":
+                    case "tex":
+                }
             }
             else {
                 rollLabel.setText("B가 굴린 숫자 : " + rand);
                 changePlayerPos(turn, rand);
-                setPopup(curposB);
                 turn = 0;
-            }
 
-            doAction(turn);
+                switch (countryState[curposB].state) {
+                    case "notbuy":
+                        setPurchasePopup(curposB, "B");
+                        break;
+                    case "B":
+                        // 내땅이니까 가격 증가
+                        setMyCountry(curposB, "B");
+                        break;
+                    case "A":
+                        // 넘땅이니까 돈내는 팝업
+                        setPayPopup(curposB, "B");
+                        break;
+                    case "card":
+                        // 이벤트 팝업
+                    case "game":
+                        // 이벤트 팝업
+                    case "island":
+                    case "olympic":
+                    case "airplane":
+                    case "tex":
+                }
+            }
         }
     }
 
-    void doAction(int turn) {
+    class PurchaseListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JButton temp = (JButton) e.getSource();
+            if (temp.getText() == "구매하기") {
+                purchaseAction(turn);
+                purchasePopup.setVisible(false);
+                Roll.setVisible(true);
+            }
+            else if (temp.getText() == "지불하기") {
+                payAction(turn);
+                purchasePopup.setVisible(false);
+                Roll.setVisible(true);
+            }
+            else if (temp.getText() == "확인") {
+                purchasePopup.setVisible(false);
+                Roll.setVisible(true);
+            }
+        }
+    }
+
+    void appendCountry(int player) {
+        if (player == 1) {
+            boughtACountry.setText("");
+            for (String s: boughtA) {
+                boughtACountry.setText(s + ", " + boughtACountry.getText());
+            }
+        }
+        else {
+            boughtBCountry.setText("");
+            for (String s: boughtB) {
+                boughtBCountry.setText(s + ", " + boughtBCountry.getText());
+            }
+        }
+    }
+
+    void payAction(int turn) {
         // 플레이어 포지션에 맞는 액션을 함.
         if (turn == 1) {
-            if (countryState[curposA].state == "notbuy") {
-                // 땅을 살 수 있는 창을 띄워줌
-                moneyA -= 1000;
-                moneyALabel.setText("현재 자산: " + moneyA);
-            }
+            // 땅을 살 수 있는 창을 띄워줌
+            moneyA -= countryState[curposA].price * 0.7;
+            moneyALabel.setText("현재 자산: " + moneyA);
         }
         if (turn == 0) {
-            if (countryState[curposA].state == "notbuy") {
-                // 땅을 살 수 있는 창을 띄워줌
-                moneyB -= 1000;
-                moneyBLabel.setText("현재 자산: " + moneyB);
-            }
+            // 땅을 살 수 있는 창을 띄워줌
+            moneyB -= countryState[curposB].price * 0.7;
+            moneyBLabel.setText("현재 자산: " + moneyB);
         }
+        appendCountry(turn);
+    }
+
+    void purchaseAction(int turn) {
+        // 플레이어 포지션에 맞는 액션을 함.
+        if (turn == 1) {
+            // 땅을 살 수 있는 창을 띄워줌
+            moneyA -= countryState[curposA].price;
+            boughtA.add(countryState[curposA].name);
+            countryState[curposA].state = "A";
+            moneyALabel.setText("현재 자산: " + moneyA);
+        }
+        if (turn == 0) {
+            // 땅을 살 수 있는 창을 띄워줌
+            moneyB -= countryState[curposB].price;
+            boughtB.add(countryState[curposB].name);
+            countryState[curposB].state = "B";
+            moneyBLabel.setText("현재 자산: " + moneyB);
+        }
+        appendCountry(turn);
     }
 
     public static void main(String[] args) {

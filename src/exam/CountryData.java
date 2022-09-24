@@ -31,9 +31,17 @@ class Country {
 
 class CountryState {
     String state;
+    String name;
     int num;
-    CountryState(int num, String state) {
+    boolean isOlympic;
+    int price;
+    int count;
+    CountryState(int num, String name, String state, int price) {
         this.state = state;
+        this.name = name;
         this.num = num;
+        this.price = price;
+        this.isOlympic = false;
+        this.count = 0;
     }
 }
