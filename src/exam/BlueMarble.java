@@ -132,6 +132,7 @@ public class BlueMarble extends JFrame {
     JButton Roll = new JButton("Roll");
     JPanel purchasePopup = new JPanel(null);
     JButton purchaseBtn = new JButton("구매하기");
+    JButton cancelBtn = new JButton("취소");
     int curposA = 0;
     int curposB = 0;
     int moneyA = 1000000;
@@ -347,9 +348,15 @@ public class BlueMarble extends JFrame {
         purchasePopup.setBounds(300, 300, 210, 210);
 
         purchasePopup.add(purchaseBtn);
-        purchaseBtn.setBounds(60, 150, 100, 40);
+        purchaseBtn.setBounds(10, 150, 90, 40);
         PurchaseListener listener = new PurchaseListener();
         purchaseBtn.addActionListener(listener);
+
+        purchasePopup.add(cancelBtn);
+        cancelBtn.setHorizontalAlignment(0);
+        cancelBtn.setBounds(110, 150, 90, 40);
+        CancelListener cancelListener = new CancelListener();
+        cancelBtn.addActionListener(cancelListener);
 
         description.setHorizontalAlignment(0);
         purchasePopup.add(description);
@@ -388,6 +395,7 @@ public class BlueMarble extends JFrame {
         playerLabel.setText(player + "가 " + country.name + "을 밟았습니다.");
         description.setText(country.price + "원에 구매할 수 있습니다.");
         purchaseBtn.setText("구매하기");
+        cancelBtn.setText("취소");
     }
 
     void setPayPopup(int countryId, String player) {
@@ -482,6 +490,17 @@ public class BlueMarble extends JFrame {
                 Roll.setVisible(true);
             }
             else if (temp.getText() == "확인") {
+                purchasePopup.setVisible(false);
+                Roll.setVisible(true);
+            }
+        }
+    }
+
+    class CancelListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JButton temp = (JButton) e.getSource();
+            if (temp.getText() == "취소") {
                 purchasePopup.setVisible(false);
                 Roll.setVisible(true);
             }
