@@ -28,3 +28,12 @@ class Country {
         this.position = pos;
     }
 }
+
+class CountryState {
+    String state;
+    int num;
+    CountryState(int num, String state) {
+        this.state = state;
+        this.num = num;
+    }
+}
