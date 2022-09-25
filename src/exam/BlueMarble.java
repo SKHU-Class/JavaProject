@@ -6,7 +6,6 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -129,6 +128,8 @@ public class BlueMarble extends JFrame {
     JLabel rollLabel = new JLabel("주사위를 굴려주세요");
     JButton playerA = new JButton("A");
     JButton playerB = new JButton("B");
+    int playerACoupon = 0;
+    int playerBCoupon = 0;
     JButton Roll = new JButton("Roll");
     JPanel purchasePopup = new JPanel(null);
     JButton purchaseBtn = new JButton("구매하기");
@@ -385,6 +386,7 @@ public class BlueMarble extends JFrame {
         description.setText("<html>도시 가격이 " + country.price + "에서<br/>" + upPrice + "로 증가하였습니다.</html>");
         country.price = upPrice;
         purchaseBtn.setText("확인");
+        cancelBtn.setVisible(false);
     }
     void setPurchasePopup(int countryId, String player) {
         purchasePopup.setVisible(true);
@@ -392,9 +394,11 @@ public class BlueMarble extends JFrame {
 
         CountryState country = countryState[countryId];
         purchaseName.setText(country.name);
-        playerLabel.setText(player + "가 " + country.name + "을 밟았습니다.");
+        playerLabel.setText(player + "가 " + country.name + "을 방문했습니다.");
         description.setText(country.price + "원에 구매할 수 있습니다.");
         purchaseBtn.setText("구매하기");
+        cancelBtn.setVisible(true);
+        cancelBtn.setEnabled(true);
         cancelBtn.setText("취소");
     }
 
@@ -409,6 +413,28 @@ public class BlueMarble extends JFrame {
         description.setText(upPrice + "원을 지불해야합니다.");
         country.price = upPrice;
         purchaseBtn.setText("지불하기");
+        cancelBtn.setVisible(true);
+        cancelBtn.setText("쿠폰");
+        if (player == "A" && playerACoupon > 0)
+            cancelBtn.setEnabled(true);
+        else if (player == "B" && playerBCoupon > 0)
+            cancelBtn.setEnabled(true);
+        else
+            cancelBtn.setEnabled(false);
+    }
+
+    void setCardPopup(int countryId, String player) {
+        purchasePopup.setVisible(true);
+        Roll.setVisible(false);
+
+        CountryState country = countryState[countryId];
+        purchaseName.setText(country.name);
+        playerLabel.setText(player + "가 카드를 뽑았습니다.");
+        description.setText("<html>한번 지불해야하는 돈을<br/>무효화 시킵니다.</html>");
+        purchaseBtn.setText("저장하기");
+        cancelBtn.setVisible(true);
+        cancelBtn.setEnabled(true);
+        cancelBtn.setText("취소");
     }
 
     class RollBtnListener implements ActionListener {
@@ -437,6 +463,7 @@ public class BlueMarble extends JFrame {
                         break;
                     case "card":
                         // 이벤트 팝업
+                        setCardPopup(curposA, "A");
                     case "game":
                         // 이벤트 팝업
                     case "island":
@@ -464,6 +491,7 @@ public class BlueMarble extends JFrame {
                         break;
                     case "card":
                         // 이벤트 팝업
+                        setCardPopup(curposB, "B");
                     case "game":
                         // 이벤트 팝업
                     case "island":
@@ -493,6 +521,11 @@ public class BlueMarble extends JFrame {
                 purchasePopup.setVisible(false);
                 Roll.setVisible(true);
             }
+            else if(temp.getText() == "저장하기") {
+                couponAdd(turn);
+                purchasePopup.setVisible(false);
+                Roll.setVisible(true);
+            }
         }
     }
 
@@ -501,6 +534,11 @@ public class BlueMarble extends JFrame {
         public void actionPerformed(ActionEvent e) {
             JButton temp = (JButton) e.getSource();
             if (temp.getText() == "취소") {
+                purchasePopup.setVisible(false);
+                Roll.setVisible(true);
+            }
+            if (temp.getText() == "쿠폰") {
+                couponAction(turn);
                 purchasePopup.setVisible(false);
                 Roll.setVisible(true);
             }
@@ -522,15 +560,35 @@ public class BlueMarble extends JFrame {
         }
     }
 
+    void couponAdd(int turn) {
+        if (turn == 1) {
+            playerACoupon += 1;
+        }
+        else {
+            playerBCoupon += 1;
+        }
+    }
+
+    void couponAction(int turn) {
+        if (turn == 1) {
+            playerACoupon -= 1;
+        }
+        else {
+            playerBCoupon -= 1;
+        }
+    }
+
     void payAction(int turn) {
         // 플레이어 포지션에 맞는 액션을 함.
         if (turn == 1) {
             // 땅을 살 수 있는 창을 띄워줌
             moneyA -= countryState[curposA].price * 0.7;
+            moneyB += countryState[curposA].price * 0.7;
             moneyALabel.setText("현재 자산: " + moneyA);
         }
         if (turn == 0) {
             // 땅을 살 수 있는 창을 띄워줌
+            moneyA += countryState[curposA].price * 0.7;
             moneyB -= countryState[curposB].price * 0.7;
             moneyBLabel.setText("현재 자산: " + moneyB);
         }
