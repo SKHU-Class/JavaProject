@@ -109,11 +109,11 @@ public class BlueMarble extends JFrame {
         new Country("모스크바", new Color(148, 115, 165)),
         new Country("제네바", new Color(148, 115, 165)),
         new Country("로마", new Color(148, 115, 165)),
-        new Country("세계여행", Color.WHITE),
+        new Country("<html>보너스<br/>게임</html>", Color.WHITE),
     };
 
     private Country[] southCountry = {
-        new Country("무인도", Color.LIGHT_GRAY),
+        new Country("국세청", Color.WHITE),
         new Country("카이로", new Color(46, 149, 24)),
         new Country("두바이", new Color(46, 149, 24)),
         new Country("타이페이", new Color(46, 149, 24)),
@@ -157,7 +157,7 @@ public class BlueMarble extends JFrame {
             new CountryState(5, "타이페이","notbuy", 100000),
             new CountryState(6, "두바이","notbuy", 100000),
             new CountryState(7, "카이로","notbuy", 100000),
-            new CountryState(8, "무인도","island", 100000),
+            new CountryState(8, "국세청","tax", 100000),
             new CountryState(9, "발리","notbuy", 100000),
             new CountryState(10,"도쿄", "notbuy", 100000),
             new CountryState(11,"시드니", "notbuy", 100000),
@@ -173,7 +173,7 @@ public class BlueMarble extends JFrame {
             new CountryState(21,"모스크바", "notbuy", 100000),
             new CountryState(22,"제네바", "notbuy", 100000),
             new CountryState(23,"로마", "notbuy", 100000),
-            new CountryState(24,"세계여행", "airplane", 100000),
+            new CountryState(24,"보너스게임", "game", 100000),
             new CountryState(25,"타히티", "notbuy", 100000),
             new CountryState(26,"런던", "notbuy", 100000),
             new CountryState(27,"영국", "notbuy", 100000),
@@ -528,6 +528,26 @@ public class BlueMarble extends JFrame {
         cancelBtn.setText("취소");
     }
 
+    void setGamePopup(String player) {
+        purchasePopup.setVisible(true);
+        Roll.setVisible(false);
+
+        purchaseName.setText("보너스 게임");
+        playerLabel.setText(player + "가 도박을 했습니다.");
+        Random random = new Random();
+        int r = random.nextInt(100);
+        if (r % 2 == 0) {
+            description.setText("<html>도박에 성공했습니다.<br/>50000원을 얻습니다.</html>");
+            purchaseBtn.setText("돈 얻기");
+            cancelBtn.setVisible(false);
+        }
+        else {
+            description.setText("<html>도박에 실패했습니다.<br/>50000원을 잃습니다.</html>");
+            purchaseBtn.setText("돈 잃기");
+            cancelBtn.setVisible(false);
+        }
+    }
+
     class RollBtnListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -558,6 +578,8 @@ public class BlueMarble extends JFrame {
                         break;
                     case "game":
                         // 이벤트 팝업
+                        setGamePopup("A");
+                        break;
                     case "island":
                         break;
                     case "olympic":
@@ -593,6 +615,8 @@ public class BlueMarble extends JFrame {
                         break;
                     case "game":
                         // 이벤트 팝업
+                        setGamePopup("B");
+                        break;
                     case "island":
                         break;
                     case "olympic":
@@ -623,7 +647,6 @@ public class BlueMarble extends JFrame {
                 Roll.setVisible(true);
             }
             else if (temp.getText() == "확인") {
-
                 purchasePopup.setVisible(false);
                 Roll.setVisible(true);
             }
@@ -634,6 +657,16 @@ public class BlueMarble extends JFrame {
             }
             else if(temp.getText() == "세금내기") {
                 taxAction(turn);
+                purchasePopup.setVisible(false);
+                Roll.setVisible(true);
+            }
+            else if(temp.getText() == "돈 얻기") {
+                gameAction(turn, true);
+                purchasePopup.setVisible(false);
+                Roll.setVisible(true);
+            }
+            else if(temp.getText() == "돈 잃기") {
+                gameAction(turn, false);
                 purchasePopup.setVisible(false);
                 Roll.setVisible(true);
             }
@@ -701,6 +734,29 @@ public class BlueMarble extends JFrame {
             moneyBLabel.setText("현재 자산: " + moneyB);
         }
         appendCountry(turn);
+    }
+
+    void gameAction(int turn, boolean gain) {
+        if (turn == 1) {
+            if (gain) {
+                moneyA += 50000;
+                moneyALabel.setText("현재 자산: " + moneyA);
+            }
+            else {
+                moneyA -= 50000;
+                moneyALabel.setText("현재 자산: " + moneyA);
+            }
+        }
+        if (turn == 0) {
+            if (gain) {
+                moneyB += 50000;
+                moneyBLabel.setText("현재 자산: " + moneyB);
+            }
+            else {
+                moneyB -= 50000;
+                moneyBLabel.setText("현재 자산: " + moneyB);
+            }
+        }
     }
 
     void payAction(int turn) {
