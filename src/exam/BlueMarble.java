@@ -179,7 +179,7 @@ public class BlueMarble extends JFrame {
             new CountryState(27,"영국", "notbuy", 100000),
             new CountryState(28,"card", "card", 100000),
             new CountryState(29,"뉴욕", "notbuy", 100000),
-            new CountryState(30,"국세청", "tex", 100000),
+            new CountryState(30,"국세청", "tax", 100000),
             new CountryState(31,"서울", "notbuy", 100000),
     };
     public BlueMarble() {
@@ -480,6 +480,40 @@ public class BlueMarble extends JFrame {
             cancelBtn.setEnabled(false);
     }
 
+    void setFirePopup() {
+        if (moneyA < 0) {
+            purchasePopup.setVisible(true);
+            Roll.setVisible(false);
+
+            purchaseName.setText("B 우승!!");
+            playerLabel.setText("A가 파산했습니다.");
+            description.setText("");
+            purchaseBtn.setText("확인");
+            cancelBtn.setVisible(false);
+        }
+        else if (moneyB < 0) {
+            purchasePopup.setVisible(true);
+            Roll.setVisible(false);
+
+            purchaseName.setText("A 우승!!");
+            playerLabel.setText("B가 파산했습니다.");
+            description.setText("");
+            purchaseBtn.setText("확인");
+            cancelBtn.setVisible(false);
+        }
+    }
+
+    void setTaxPopup(String player) {
+        purchasePopup.setVisible(true);
+        Roll.setVisible(false);
+
+        purchaseName.setText("국세청");
+        playerLabel.setText(player + "가 세금폭탄을 맞았습니다.");
+        description.setText("<html>세금으로<br/>150000원을 내야합니다.</html>");
+        purchaseBtn.setText("세금내기");
+        cancelBtn.setVisible(false);
+    }
+
     void setCardPopup(int countryId, String player) {
         purchasePopup.setVisible(true);
         Roll.setVisible(false);
@@ -531,7 +565,8 @@ public class BlueMarble extends JFrame {
                         break;
                     case "airplane":
                         break;
-                    case "tex":
+                    case "tax":
+                        setTaxPopup("A");
                         break;
                 }
             }
@@ -565,7 +600,8 @@ public class BlueMarble extends JFrame {
                         break;
                     case "airplane":
                         break;
-                    case "tex":
+                    case "tax":
+                        setTaxPopup("B");
                         break;
                 }
             }
@@ -587,6 +623,7 @@ public class BlueMarble extends JFrame {
                 Roll.setVisible(true);
             }
             else if (temp.getText() == "확인") {
+
                 purchasePopup.setVisible(false);
                 Roll.setVisible(true);
             }
@@ -595,6 +632,12 @@ public class BlueMarble extends JFrame {
                 purchasePopup.setVisible(false);
                 Roll.setVisible(true);
             }
+            else if(temp.getText() == "세금내기") {
+                taxAction(turn);
+                purchasePopup.setVisible(false);
+                Roll.setVisible(true);
+            }
+            setFirePopup();
         }
     }
 
@@ -645,6 +688,19 @@ public class BlueMarble extends JFrame {
         else {
             playerBCoupon -= 1;
         }
+    }
+
+    void taxAction(int turn) {
+        // 플레이어 포지션에 맞는 액션을 함.
+        if (turn == 1) {
+            moneyA -= 150000;
+            moneyALabel.setText("현재 자산: " + moneyA);
+        }
+        if (turn == 0) {
+            moneyB -= 150000;
+            moneyBLabel.setText("현재 자산: " + moneyB);
+        }
+        appendCountry(turn);
     }
 
     void payAction(int turn) {
