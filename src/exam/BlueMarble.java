@@ -146,8 +146,8 @@ public class BlueMarble extends JFrame {
     JLabel moneyALabel = new JLabel("현재 자산: " + moneyA);
     JLabel moneyBLabel = new JLabel("현재 자산: " + moneyB);
     int turn = 0;
-    List<String> boughtA = new ArrayList<>();
-    List<String> boughtB = new ArrayList<>();
+    List<CountryState> boughtA = new ArrayList<>();
+    List<CountryState> boughtB = new ArrayList<>();
     CountryState[] countryState = new CountryState[]{
             new CountryState(0, "start", "start", 100000),
             new CountryState(1, "방콕","notbuy", 100000),
@@ -278,7 +278,7 @@ public class BlueMarble extends JFrame {
         listBoard.add(boughtBCountry);
     }
 
-    JLabel createContry(String name, Color color) {
+    JLabel createCountry(String name, Color color) {
         JLabel label = new JLabel(name);
         label.setOpaque(true);
         label.setBackground(color);
@@ -296,11 +296,20 @@ public class BlueMarble extends JFrame {
 
     void changePlayerPos(int turn, int dice) {
         if (turn == 0) {
+            // 월급 시스템
+            if (curposA + dice >= 32) {
+                moneyA += 100000;
+                moneyALabel.setText("현재 자산: " + moneyA);
+            }
             curposA = (curposA + dice) % 32;
             PosXY go = playerAposition[curposA];
             playerA.setBounds(go.x, go.y, 30, 30);
         }
         else {
+            if (curposB + dice >= 32) {
+                moneyB += 100000;
+                moneyBLabel.setText("현재 자산: " + moneyB);
+            }
             curposB = (curposB + dice) % 32;
             PosXY go = playerBposition[curposB];
             playerB.setBounds(go.x, go.y, 30, 30);
@@ -311,7 +320,7 @@ public class BlueMarble extends JFrame {
         // 동 서 남 북 보드 세팅
         JPanel east = createQuadrant(Color.white, new GridLayout(7, 1), new Dimension(90, 630));
         for (Country i: eastCountry) {
-            east.add(createContry(i.name, i.color));
+            east.add(createCountry(i.name, i.color));
         }
         east.setBounds(720, 90, 90, 630);
         container.add(east);
@@ -319,7 +328,7 @@ public class BlueMarble extends JFrame {
 
         JPanel west = createQuadrant(Color.white, new GridLayout(7, 1), new Dimension(90, 630));
         for (Country i: westCountry) {
-            west.add(createContry(i.name, i.color));
+            west.add(createCountry(i.name, i.color));
         }
         west.setBounds(0, 90, 90, 630);
         container.add(west);
@@ -327,7 +336,7 @@ public class BlueMarble extends JFrame {
 
         JPanel south = createQuadrant(Color.white, new GridLayout(1, 9), new Dimension(810, 90));
         for (Country i: southCountry) {
-            south.add(createContry(i.name, i.color));
+            south.add(createCountry(i.name, i.color));
         }
         south.setBounds(0, 720, 810, 90);
         container.add(south, BorderLayout.SOUTH);
@@ -335,7 +344,7 @@ public class BlueMarble extends JFrame {
 
         JPanel north = createQuadrant(Color.white, new GridLayout(1, 9), new Dimension(810, 90));
         for (Country i: northCountry) {
-            north.add(createContry(i.name, i.color));
+            north.add(createCountry(i.name, i.color));
         }
         north.setBounds(0, 0, 810, 90);
         container.add(north, BorderLayout.NORTH);
@@ -402,6 +411,54 @@ public class BlueMarble extends JFrame {
         cancelBtn.setText("취소");
     }
 
+    void setOlympicPopup(String player) {
+        purchasePopup.setVisible(true);
+        Roll.setVisible(false);
+        cancelBtn.setVisible(false);
+
+        Random rand = new Random();
+        // 기존 올림픽 취소
+        for (CountryState c: countryState) {
+            if (c.isOlympic) {
+                c.isOlympic = false;
+                c.price /= 2;
+            }
+        }
+        // 올림픽을 밟은 사람 찾기
+        if (player == "A") {
+            int r = rand.nextInt(boughtA.size());
+            if (r == 0) {
+                purchaseName.setText("가지고 있는 땅이 없습니다.");
+                playerLabel.setText("먼저 땅을 구매해주세요.");
+                description.setText("");
+            } else {
+                CountryState country = boughtA.get(r);
+                country.price *= 2;
+                country.isOlympic = true;
+                purchaseName.setText(country.name + country.count + "번 방문함");
+                playerLabel.setText(country.name + "에 올림픽이 개최되었습니다.");
+                description.setText("<html>도시 가격이 " + country.price / 2 + "에서<br/>" + country.price + "로 증가하였습니다.</html>");
+            }
+            purchaseBtn.setText("확인");
+        }
+        else {
+            int r = rand.nextInt(boughtB.size());
+            if (r == 0) {
+                purchaseName.setText("가지고 있는 땅이 없습니다.");
+                playerLabel.setText("먼저 땅을 구매해주세요.");
+                description.setText("");
+            } else {
+                CountryState country = boughtB.get(r);
+                country.price *= 2;
+                country.isOlympic = true;
+                purchaseName.setText(country.name + country.count + "번 방문함");
+                playerLabel.setText(country.name + "에 올림픽이 개최되었습니다.");
+                description.setText("<html>도시 가격이 " + country.price / 2 + "에서<br/>" + country.price + "로 증가하였습니다.</html>");
+            }
+            purchaseBtn.setText("확인");
+        }
+    }
+
     void setPayPopup(int countryId, String player) {
         purchasePopup.setVisible(true);
         Roll.setVisible(false);
@@ -464,12 +521,18 @@ public class BlueMarble extends JFrame {
                     case "card":
                         // 이벤트 팝업
                         setCardPopup(curposA, "A");
+                        break;
                     case "game":
                         // 이벤트 팝업
                     case "island":
+                        break;
                     case "olympic":
+                        setOlympicPopup("A");
+                        break;
                     case "airplane":
+                        break;
                     case "tex":
+                        break;
                 }
             }
             else {
@@ -492,12 +555,18 @@ public class BlueMarble extends JFrame {
                     case "card":
                         // 이벤트 팝업
                         setCardPopup(curposB, "B");
+                        break;
                     case "game":
                         // 이벤트 팝업
                     case "island":
+                        break;
                     case "olympic":
+                        setOlympicPopup("B");
+                        break;
                     case "airplane":
+                        break;
                     case "tex":
+                        break;
                 }
             }
         }
@@ -548,14 +617,14 @@ public class BlueMarble extends JFrame {
     void appendCountry(int player) {
         if (player == 1) {
             boughtACountry.setText("");
-            for (String s: boughtA) {
-                boughtACountry.setText(s + ", " + boughtACountry.getText());
+            for (CountryState s: boughtA) {
+                boughtACountry.setText(s.name + ", " + boughtACountry.getText());
             }
         }
         else {
             boughtBCountry.setText("");
-            for (String s: boughtB) {
-                boughtBCountry.setText(s + ", " + boughtBCountry.getText());
+            for (CountryState s: boughtB) {
+                boughtBCountry.setText(s.name + ", " + boughtBCountry.getText());
             }
         }
     }
@@ -582,14 +651,16 @@ public class BlueMarble extends JFrame {
         // 플레이어 포지션에 맞는 액션을 함.
         if (turn == 1) {
             // 땅을 살 수 있는 창을 띄워줌
-            moneyA -= countryState[curposA].price * 0.7;
-            moneyB += countryState[curposA].price * 0.7;
+            moneyA -= countryState[curposA].price;
+            moneyB += countryState[curposB].price;
             moneyALabel.setText("현재 자산: " + moneyA);
+            moneyBLabel.setText("현재 자산: " + moneyB);
         }
         if (turn == 0) {
             // 땅을 살 수 있는 창을 띄워줌
-            moneyA += countryState[curposA].price * 0.7;
-            moneyB -= countryState[curposB].price * 0.7;
+            moneyA += countryState[curposA].price;
+            moneyB -= countryState[curposB].price;
+            moneyALabel.setText("현재 자산: " + moneyA);
             moneyBLabel.setText("현재 자산: " + moneyB);
         }
         appendCountry(turn);
@@ -600,14 +671,14 @@ public class BlueMarble extends JFrame {
         if (turn == 1) {
             // 땅을 살 수 있는 창을 띄워줌
             moneyA -= countryState[curposA].price;
-            boughtA.add(countryState[curposA].name);
+            boughtA.add(countryState[curposA]);
             countryState[curposA].state = "A";
             moneyALabel.setText("현재 자산: " + moneyA);
         }
         if (turn == 0) {
             // 땅을 살 수 있는 창을 띄워줌
             moneyB -= countryState[curposB].price;
-            boughtB.add(countryState[curposB].name);
+            boughtB.add(countryState[curposB]);
             countryState[curposB].state = "B";
             moneyBLabel.setText("현재 자산: " + moneyB);
         }
