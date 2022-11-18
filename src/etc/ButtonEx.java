@@ -1,16 +1,18 @@
+package etc;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class ButtonEx extends JFrame {
     public ButtonEx() {
-        setTitle("ButtonEx");
+        setTitle("etc.ButtonEx");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container c = getContentPane();
         c.setLayout(new FlowLayout());
 
-        ImageIcon normalIcon = new ImageIcon("images/normalIcon.gif");
-        ImageIcon rolloverIcon = new ImageIcon("images/rolloverIcon.gif");
-        ImageIcon pressedIcon = new ImageIcon("images/pressedIcon.gif");
+        ImageIcon normalIcon = new ImageIcon("images/etc/normalIcon.gif");
+        ImageIcon rolloverIcon = new ImageIcon("images/etc/rolloverIcon.gif");
+        ImageIcon pressedIcon = new ImageIcon("images/etc/pressedIcon.gif");
 
         JButton btn = new JButton("call", normalIcon);
         btn.setRolloverIcon(rolloverIcon);

@@ -1,7 +1,9 @@
+package etc;
+
 import java.awt.*;
 import javax.swing.*;
 public class RadioButtonEx extends JFrame { public RadioButtonEx() {
-        setTitle("RadioButtonEx"); setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); Container c = getContentPane();
+        setTitle("etc.RadioButtonEx"); setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); Container c = getContentPane();
         c.setLayout(new FlowLayout());
         ImageIcon cherryIcon = new ImageIcon("images/cherry.jpg"); ImageIcon selectedCherryIcon = new ImageIcon(
                 "images/selectedCherry.jpg"); ButtonGroup g = new ButtonGroup();

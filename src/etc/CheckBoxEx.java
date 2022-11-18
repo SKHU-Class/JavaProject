@@ -1,9 +1,11 @@
+package etc;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class CheckBoxEx extends JFrame {
     public CheckBoxEx() {
-        setTitle("CheckBoxEx");
+        setTitle("etc.CheckBoxEx");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container c = getContentPane();
         c.setLayout(new FlowLayout());

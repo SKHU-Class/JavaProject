@@ -1,3 +1,5 @@
+package etc;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -5,7 +7,7 @@ import java.awt.event.ActionListener;
 
 public class JComponentEx extends JFrame {
     public JComponentEx() {
-        setTitle("JComponentEx");
+        setTitle("etc.JComponentEx");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container c = getContentPane();
         c.setLayout(new FlowLayout());

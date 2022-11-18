@@ -1,3 +1,5 @@
+package etc;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
@@ -14,7 +16,7 @@ public class RadioButtonItemEventEx extends JFrame {
     private JLabel la = new JLabel();
 
     public RadioButtonItemEventEx() {
-        setTitle("RadioButtonItemEventEx");
+        setTitle("etc.RadioButtonItemEventEx");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container c = getContentPane();
         c.setLayout(new BorderLayout());
