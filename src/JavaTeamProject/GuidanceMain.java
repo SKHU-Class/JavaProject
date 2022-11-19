@@ -36,6 +36,15 @@ public class GuidanceMain extends JFrame {
             new CustomImage(352, 537, 268, 180, "images/TeamProject/hangdong.png")
                     .visible(false);
 
+    CustomImage onsuArrow =
+            new CustomImage(160, 136, 246, 85, "images/TeamProject/onsuArrow.png")
+                    .visible(false);
+    CustomImage schoolArrow =
+            new CustomImage(285, 302, 244, 102, "images/TeamProject/schoolArrow.png")
+                    .visible(false);
+    CustomImage hangdongArrow =
+            new CustomImage(482, 617, 245, 63, "images/TeamProject/hangdongArrow.png")
+                    .visible(false);
     public GuidanceMain() {
         setTitle("성공회대 길라잡이");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -51,6 +60,9 @@ public class GuidanceMain extends JFrame {
     }
 
     void setUI(Container container) {
+        container.add(onsuArrow);
+        container.add(schoolArrow);
+        container.add(hangdongArrow);
         container.add(hangdong);
         container.add(school);
         container.add(onsu);
@@ -82,35 +94,48 @@ public class GuidanceMain extends JFrame {
             @Override
             public void mouseEntered(MouseEvent e) {
                 imageEnteredResize(30, onsu, "images/TeamProject/onsu.png");
+                visibleImage(onsuArrow, true);
             }
             @Override
             public void mouseExited(MouseEvent e) {
                 imageExitedResize(30, onsu, "images/TeamProject/onsu.png");
+                visibleImage(onsuArrow, false);
             }
-
             @Override
             public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
+                System.out.println("onsu Click");
             }
         });
         school.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
                 imageEnteredResize(30, school, "images/TeamProject/school.png");
+                visibleImage(schoolArrow, true);
             }
             @Override
             public void mouseExited(MouseEvent e) {
                 imageExitedResize(30, school, "images/TeamProject/school.png");
+                visibleImage(schoolArrow, false);
+            }
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("school Click");
             }
         });
         hangdong.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
                 imageEnteredResize(30, hangdong, "images/TeamProject/hangdong.png");
+                visibleImage(hangdongArrow, true);
             }
             @Override
             public void mouseExited(MouseEvent e) {
                 imageExitedResize(30, hangdong, "images/TeamProject/hangdong.png");
+                visibleImage(hangdongArrow, false);
+            }
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                System.out.println("hangdong Click");
             }
         });
     }
@@ -158,6 +183,10 @@ public class GuidanceMain extends JFrame {
         tempImage.setImage(changeImg);
         imageComponent.setBounds(imageComponent.getX() + rate / 2, imageComponent.getY() + rate / 2, imageComponent.getWidth() - rate, imageComponent.getHeight() - rate);
         imageComponent.setIcon(tempImage);
+    }
+
+    void visibleImage(CustomImage image, Boolean bool) {
+        image.setVisible(bool);
     }
 
     void startAction(Container container) {
