@@ -2,7 +2,9 @@ package JavaTeamProject;
 
 import JavaTeamProject.CustomComponent.*;
 import JavaTeamProject.DetailView.ButtonStatus;
+import JavaTeamProject.DetailView.HangdongDetailView;
 import JavaTeamProject.DetailView.OnsuDetailView;
+import JavaTeamProject.DetailView.SchoolDetailView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -49,6 +51,9 @@ public class GuidanceMain extends JFrame {
                     .visible(false);
 
     OnsuDetailView onsuPanel = new OnsuDetailView();
+    HangdongDetailView hangdongPanel = new HangdongDetailView();
+    SchoolDetailView schoolPanel = new SchoolDetailView();
+
     public GuidanceMain() {
         setTitle("성공회대 길라잡이");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -64,6 +69,8 @@ public class GuidanceMain extends JFrame {
     }
 
     void setUI(Container container) {
+        container.add(hangdongPanel);
+        container.add(schoolPanel);
         container.add(onsuPanel);
         container.add(onsuArrow);
         container.add(schoolArrow);
@@ -126,6 +133,7 @@ public class GuidanceMain extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("school Click");
+                openDetailPanel(schoolPanel);
             }
         });
         hangdong.addMouseListener(new MouseAdapter() {
@@ -142,6 +150,7 @@ public class GuidanceMain extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("hangdong Click");
+                openDetailPanel(hangdongPanel);
             }
         });
     }
@@ -150,7 +159,7 @@ public class GuidanceMain extends JFrame {
         customPanel.visible(true);
         setButtonStatus(false);
 
-        onsuPanel.setAction(bool -> {
+        customPanel.setAction(bool -> {
             setButtonStatus(bool);
         });
     }
