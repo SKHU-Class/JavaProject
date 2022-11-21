@@ -7,9 +7,9 @@ public class CustomButton extends JButton {
         this.setText(text);
         this.setSize(width, height);
     }
-    public CustomButton(String text, String filename, int width, int height) {
+    public CustomButton(String text, String filename, int x, int y, int width, int height) {
         this.setText(text);
         this.setIcon(new ImageIcon(filename));
-        this.setSize(width, height);
+        this.setBounds(x, y, width, height);
     }
 }

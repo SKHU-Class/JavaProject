@@ -1,6 +1,8 @@
 package JavaTeamProject;
 
 import JavaTeamProject.CustomComponent.*;
+import JavaTeamProject.DetailView.ButtonStatus;
+import JavaTeamProject.DetailView.OnsuDetailView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,6 +47,8 @@ public class GuidanceMain extends JFrame {
     CustomImage hangdongArrow =
             new CustomImage(482, 617, 245, 63, "images/TeamProject/hangdongArrow.png")
                     .visible(false);
+
+    OnsuDetailView onsuPanel = new OnsuDetailView();
     public GuidanceMain() {
         setTitle("성공회대 길라잡이");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,6 +64,7 @@ public class GuidanceMain extends JFrame {
     }
 
     void setUI(Container container) {
+        container.add(onsuPanel);
         container.add(onsuArrow);
         container.add(schoolArrow);
         container.add(hangdongArrow);
@@ -104,6 +109,7 @@ public class GuidanceMain extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.out.println("onsu Click");
+                openDetailPanel(onsuPanel);
             }
         });
         school.addMouseListener(new MouseAdapter() {
@@ -138,6 +144,21 @@ public class GuidanceMain extends JFrame {
                 System.out.println("hangdong Click");
             }
         });
+    }
+
+    void openDetailPanel(CustomPanel customPanel) {
+        customPanel.visible(true);
+        setButtonStatus(false);
+
+        onsuPanel.setAction(bool -> {
+            setButtonStatus(bool);
+        });
+    }
+
+    void setButtonStatus(Boolean bool) {
+        onsu.setVisible(bool);
+        school.setVisible(bool);
+        hangdong.setVisible(bool);
     }
 
     void startLabelIn(JLabel label) {
