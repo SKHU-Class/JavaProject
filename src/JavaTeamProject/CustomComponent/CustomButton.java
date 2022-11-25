@@ -14,4 +14,11 @@ public class CustomButton extends JButton {
         this.setIcon(new ImageIcon(filename));
         this.setBounds(x, y, width, height);
     }
+
+    public CustomButton setOpaque() {
+        this.setOpaque(false);
+        this.setContentAreaFilled(false);
+        this.setBorderPainted(false);
+        return this;
+    }
 }

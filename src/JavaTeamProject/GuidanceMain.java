@@ -1,6 +1,7 @@
 package JavaTeamProject;
 
 import JavaTeamProject.CustomComponent.*;
+import JavaTeamProject.Datas.OnsuDatas;
 import JavaTeamProject.DetailView.ButtonStatus;
 import JavaTeamProject.DetailView.HangdongDetailView;
 import JavaTeamProject.DetailView.OnsuDetailView;
@@ -54,6 +55,8 @@ public class GuidanceMain extends JFrame {
     HangdongDetailView hangdongPanel = new HangdongDetailView();
     SchoolDetailView schoolPanel = new SchoolDetailView();
 
+    OnsuDatas onsuDatas = new OnsuDatas();
+
     public GuidanceMain() {
         setTitle("성공회대 길라잡이");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -72,6 +75,7 @@ public class GuidanceMain extends JFrame {
         container.add(hangdongPanel);
         container.add(schoolPanel);
         container.add(onsuPanel);
+        onsuDatas.initPins(onsuPanel);
         container.add(onsuArrow);
         container.add(schoolArrow);
         container.add(hangdongArrow);
