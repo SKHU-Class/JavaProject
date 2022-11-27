@@ -1,7 +1,5 @@
 package JavaTeamProject.CustomComponent;
 
-import JavaTeamProject.DetailView.ButtonStatus;
-
 import javax.swing.*;
 
 public class CustomButton extends JButton {

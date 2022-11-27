@@ -14,23 +14,21 @@ import java.util.ArrayList;
 public class Datas {
     public ArrayList<CustomImage> pinImages = new ArrayList<>(){};
 
-    public CustomPanel detailPanel = new CustomPanel(270, 120, 400, 500, Color.white)
+    public CustomPanel detailPanel = new CustomPanel(270, 80, 400, 580, Color.white)
             .visible(false);
-    public CustomLabel title = new CustomLabel(10, 10, 380, 90, "기본 타이틀")
+    public CustomLabel title = new CustomLabel(10, -20, 380, 90, "기본 타이틀")
             .setFont("에스코어 드림", 18)
             .setAlignment(JLabel.CENTER);
-    public CustomImage image = new CustomImage(10, 100, 380, 300, "images/TeamProject/MainMap.png")
+    public CustomImage image = new CustomImage(10, 50, 380, 300, "images/TeamProject/MainMap.png")
             .visible(true);
-    public CustomLabel description = new CustomLabel(10, 410, 380, 100,
+    public CustomLabel description = new CustomLabel(10, 320, 380, 300,
             "<html>기본 설명입니다. 어쩌구 저쩌구 기본 설명입니다. 어쩌구 저쩌구기본 설명입니다. 어쩌구 저쩌구기본 설명입니다. 어쩌구 저쩌구기본 설명입니다. 어쩌구 저쩌구기본 설명입니다. 어쩌구 저쩌구기본 설명입니다. 어쩌구 저쩌구기본 설명입니다. 어쩌구 저쩌구</html>")
             .setFont("에스코어 드림", 13)
-            .setAlignment(JLabel.CENTER);
+            .setAlignment(JLabel.LEADING);
 
     public void initDetailPanel(Container container) {
         detailPanel.cancelBtn.setBounds(350, 10, 32, 32);
         container.add(detailPanel);
-
-
 
         detailPanel.add(title);
         detailPanel.add(image);
