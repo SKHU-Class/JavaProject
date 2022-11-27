@@ -1,5 +1,6 @@
 package JavaTeamProject.CustomComponent;
 
+import JavaTeamProject.Datas.Datas;
 import JavaTeamProject.DetailView.ButtonStatus;
 
 import javax.swing.*;
@@ -21,9 +22,10 @@ public class CustomPanel extends JPanel {
         return this;
     }
 
-    public void setAction(ButtonStatus buttonStatus) {
+    public void setAction(ButtonStatus buttonStatus, Datas pinData) {
         cancelBtn.addActionListener(e -> {
             this.setVisible(false);
+            pinData.visiblePins(false);
             buttonStatus.setButtonStatus(true);
         });
     }

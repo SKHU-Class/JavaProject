@@ -6,7 +6,7 @@ import JavaTeamProject.Model.Pin;
 
 import java.awt.*;
 
-public class OnsuDatas extends Datas{
+public class HangdongDatas extends Datas{
     public Pin[] pins = new Pin[]{
         new Pin(new Location(100, 100), ""),
         new Pin(new Location(200, 200), ""),

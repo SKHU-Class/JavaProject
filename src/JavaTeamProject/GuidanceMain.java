@@ -1,7 +1,9 @@
 package JavaTeamProject;
 
 import JavaTeamProject.CustomComponent.*;
+import JavaTeamProject.Datas.HangdongDatas;
 import JavaTeamProject.Datas.OnsuDatas;
+import JavaTeamProject.Datas.SchoolDatas;
 import JavaTeamProject.DetailView.ButtonStatus;
 import JavaTeamProject.DetailView.HangdongDetailView;
 import JavaTeamProject.DetailView.OnsuDetailView;
@@ -56,6 +58,8 @@ public class GuidanceMain extends JFrame {
     SchoolDetailView schoolPanel = new SchoolDetailView();
 
     OnsuDatas onsuDatas = new OnsuDatas();
+    HangdongDatas hangdongDatas = new HangdongDatas();
+    SchoolDatas schoolDatas = new SchoolDatas();
 
     public GuidanceMain() {
         setTitle("성공회대 길라잡이");
@@ -72,10 +76,10 @@ public class GuidanceMain extends JFrame {
     }
 
     void setUI(Container container) {
+        onsuDatas.initPins(container);
         container.add(hangdongPanel);
         container.add(schoolPanel);
         container.add(onsuPanel);
-        onsuDatas.initPins(onsuPanel);
         container.add(onsuArrow);
         container.add(schoolArrow);
         container.add(hangdongArrow);
@@ -161,11 +165,21 @@ public class GuidanceMain extends JFrame {
 
     void openDetailPanel(CustomPanel customPanel) {
         customPanel.visible(true);
-        setButtonStatus(false);
 
-        customPanel.setAction(bool -> {
-            setButtonStatus(bool);
-        });
+        if (customPanel.equals(onsuPanel)) {
+            onsuDatas.visiblePins(true);
+            customPanel.setAction(bool -> setButtonStatus(bool), onsuDatas);
+        }
+        else if (customPanel.equals(schoolPanel)) {
+            schoolDatas.visiblePins(true);
+            customPanel.setAction(bool -> setButtonStatus(bool), schoolDatas);
+        }
+        else if (customPanel.equals(hangdongPanel)) {
+            hangdongDatas.visiblePins(true);
+            customPanel.setAction(bool -> setButtonStatus(bool), hangdongDatas);
+        }
+
+        setButtonStatus(false);
     }
 
     void setButtonStatus(Boolean bool) {

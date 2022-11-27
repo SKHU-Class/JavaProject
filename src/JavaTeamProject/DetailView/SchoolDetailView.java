@@ -6,7 +6,7 @@ import JavaTeamProject.CustomComponent.CustomPanel;
 import java.awt.*;
 
 public class SchoolDetailView extends CustomPanel {
-    CustomImage onsuDetailImg = new CustomImage(0, 0, 947, 740, "images/TeamProject/onsuDetail.png");
+    CustomImage schoolDetailImg = new CustomImage(0, 0, 947, 740, "images/TeamProject/schoolDetail.png");
     public SchoolDetailView() {
         super(0, -5, 947, 740, new Color(0, 0, 0, 0));
         this.visible(false);
@@ -15,6 +15,6 @@ public class SchoolDetailView extends CustomPanel {
     }
 
     public void setUI() {
-        this.add(onsuDetailImg);
+        this.add(schoolDetailImg);
     }
 }
