@@ -8,11 +8,10 @@ import java.awt.*;
 
 public class SchoolDatas extends Datas{
     public Pin[] pins = new Pin[]{
-        new Pin(new Location(100, 100), ""),
-        new Pin(new Location(200, 200), ""),
-        new Pin(new Location(300, 300), ""),
-        new Pin(new Location(400, 400), ""),
-        new Pin(new Location(500, 500), ""),
+        new Pin(new Location(100, 100), "우가본", "images/TeamProject/MainMap.png", "<html>맛있는 우가본 어쩌구 입니다.</html>"),
+        new Pin(new Location(200, 200), "우가본2", "images/TeamProject/MainMap.png", "<html>맛있는 우가본2 어쩌구 입니다.</html>"),
+        new Pin(new Location(300, 300), "우가본3", "images/TeamProject/MainMap.png", "<html>맛있는 우가본3 어쩌구 입니다.</html>"),
+
     };
 
     public void initPins(Container container) {
@@ -22,7 +21,7 @@ public class SchoolDatas extends Datas{
                             .visible(false);
 
             pinImages.add(image);
-            setMouseListener(image);
+            setMouseListener(image, pin);
             container.add(image);
         }
     }

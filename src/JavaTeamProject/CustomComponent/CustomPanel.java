@@ -15,6 +15,10 @@ public class CustomPanel extends JPanel {
         this.setBackground(color);
 
         this.add(cancelBtn);
+
+        cancelBtn.addActionListener(e -> {
+            this.setVisible(false);
+        });
     }
 
     public CustomPanel visible(boolean bool) {
@@ -24,7 +28,6 @@ public class CustomPanel extends JPanel {
 
     public void setAction(ButtonStatus buttonStatus, Datas pinData) {
         cancelBtn.addActionListener(e -> {
-            this.setVisible(false);
             pinData.visiblePins(false);
             buttonStatus.setButtonStatus(true);
         });

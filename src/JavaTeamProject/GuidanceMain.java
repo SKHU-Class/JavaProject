@@ -76,6 +76,11 @@ public class GuidanceMain extends JFrame {
     }
 
     void setUI(Container container) {
+        hangdongDatas.initDetailPanel(container);
+        hangdongDatas.initPins(container);
+        schoolDatas.initDetailPanel(container);
+        schoolDatas.initPins(container);
+        onsuDatas.initDetailPanel(container);
         onsuDatas.initPins(container);
         container.add(hangdongPanel);
         container.add(schoolPanel);
