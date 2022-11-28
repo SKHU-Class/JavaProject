@@ -128,7 +128,6 @@ public class GuidanceMain extends JFrame {
             }
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("onsu Click");
                 openDetailPanel(onsuPanel);
             }
         });
@@ -145,7 +144,6 @@ public class GuidanceMain extends JFrame {
             }
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("school Click");
                 openDetailPanel(schoolPanel);
             }
         });
@@ -162,7 +160,6 @@ public class GuidanceMain extends JFrame {
             }
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("hangdong Click");
                 openDetailPanel(hangdongPanel);
             }
         });
