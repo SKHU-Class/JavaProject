@@ -26,10 +26,17 @@ public class Datas {
             .setFont("에스코어 드림", 13)
             .setAlignment(JLabel.LEADING);
 
+    public CustomImage leftArrow = new CustomImage(70, 10, 30, 30, "images/TeamProject/leftArrow.png");
+    public CustomImage rightArrow = new CustomImage(300, 10, 30, 30, "images/TeamProject/rightArrow.png");
+
+    public int curIndex;
+
     public void initDetailPanel(Container container) {
         detailPanel.cancelBtn.setBounds(350, 10, 32, 32);
         container.add(detailPanel);
 
+        detailPanel.add(leftArrow);
+        detailPanel.add(rightArrow);
         detailPanel.add(title);
         detailPanel.add(image);
         detailPanel.add(description);
@@ -56,10 +63,42 @@ public class Datas {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
+                curIndex = pin.index;
                 title.setText(pin.title);
                 description.setText(pin.description);
                 image.setIcon(new ImageIcon(pin.imageUrl));
                 detailPanel.visible(true);
+            }
+        });
+    }
+
+    void setArrowListener(Pin[] pins) {
+        rightArrow.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                curIndex += 1;
+                curIndex = pins[(curIndex) % pins.length].index;
+                title.setText(pins[(curIndex) % pins.length].title);
+                description.setText(pins[(curIndex) % pins.length].description);
+                image.setIcon(new ImageIcon(pins[(curIndex) % pins.length].imageUrl));
+            }
+        });
+        leftArrow.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if (curIndex - 1 < 0) {
+                    curIndex = pins.length - 1;
+                }
+                else {
+                    curIndex = curIndex - 1;
+                }
+
+                curIndex = pins[(curIndex) % pins.length].index;
+                title.setText(pins[(curIndex) % pins.length].title);
+                description.setText(pins[(curIndex) % pins.length].description);
+                image.setIcon(new ImageIcon(pins[(curIndex) % pins.length].imageUrl));
             }
         });
     }
